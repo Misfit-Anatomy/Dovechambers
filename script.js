@@ -1,0 +1,17 @@
+const header = document.querySelector('.site-header');
+const menuBtn = document.querySelector('.menu-btn');
+const nav = document.querySelector('.nav');
+window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 30));
+menuBtn.addEventListener('click', () => { const open = nav.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', open); document.body.style.overflow = open ? 'hidden' : ''; });
+nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); document.body.style.overflow=''; menuBtn.setAttribute('aria-expanded','false'); }));
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const people = {
+  mwangala: {name:'Mwangala Zaloumis', role:'Managing Partner', image:'assets/mwangala-zaloumis.png', email:'info@dovechambers.co.zm', bio:'An Advocate of the High Court for Zambia and a legislative drafts person, Mrs. Zaloumis has extensive experience in litigation, banking and finance, contract negotiation and drafting, conveyancing and securitisation, labour and industrial relations, corporate administration, mergers and acquisitions, mining and energy regulation. The firm profile records a long history of major constitutional, commercial and public-interest matters, together with board and regulatory leadership experience.'},
+  mayamba: {name:'Mayamba Mwanawasa', role:'Principal Counsel', image:'assets/mayamba-mwanawasa.png', email:'mayamc2003@yahoo.co.uk', bio:'An Advocate of the High Court and Supreme Court of Zambia, Ms. Mwanawasa has significant experience in civil and criminal litigation, arbitration and mediation. Her practice spans company law, labour and employment, commercial and construction law, matrimonial matters, company formation, statutory compliance, work permits, contract negotiation, debt recovery, securities enforcement and conveyancing.'},
+  joseph: {name:'Joseph Katati', role:'Associate', image:'assets/joseph-katati.png', email:'josephkatatiw@gmail.com', bio:'An Advocate of the High Court for Zambia, Joseph Katati holds an LL.B from the University of Zambia and has training in legal writing, analysis and advanced construction law. His practice includes civil and criminal litigation, labour and employment advisory, matrimonial matters, court and tribunal representation and conveyancing.'},
+  jacob: {name:'Jacob Milambo', role:'Associate', image:'assets/jacob-milambo.png', email:'jacob.milambo@yahoo.com', bio:'Jacob Milambo is an Associate whose practice includes civil litigation, employment and labour matters, tort, family law, probate and commercial transactions. The firm profile also records experience in joint ventures, mergers and acquisitions, corporate governance, corporate advisory, contract negotiation, conveyancing and legal drafting.'}
+};
+const modal = document.getElementById('profileModal'); const content = document.getElementById('modalContent');
+document.querySelectorAll('.person-card').forEach(card => card.addEventListener('click', () => { const p=people[card.dataset.person]; content.innerHTML=`<div class="modal-body"><img src="${p.image}" alt="${p.name}"><div class="modal-text"><div class="role">${p.role}</div><h3>${p.name}</h3><p>${p.bio}</p><a href="mailto:${p.email}">${p.email} ↗</a></div></div>`; modal.showModal(); }));
+document.querySelector('.modal-close').addEventListener('click',()=>modal.close()); modal.addEventListener('click',e=>{if(e.target===modal)modal.close()});
