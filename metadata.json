@@ -1,0 +1,8 @@
+{
+  "name": "Dove Chambers Advocates",
+  "description": "Strategic legal counsel in Zambia since 1998.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
