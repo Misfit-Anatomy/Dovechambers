@@ -7,8 +7,8 @@
   <title>Dove Chambers Advocates | Zambia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260831" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260903f" />
 </head>
 <body>
   <header class="site-header" id="top">
@@ -18,18 +18,21 @@
     </a>
     <button class="menu-btn" aria-label="Open navigation" aria-expanded="false"><span></span><span></span></button>
     <nav class="nav" aria-label="Primary navigation">
-      <a href="#firm">The Firm</a><a href="#expertise">Expertise</a><a href="#people">People</a><a href="#track-record">Track Record</a>
+      <a href="#firm">The Firm</a><a href="#expertise">Expertise</a><a href="#people">Our Team</a><a href="#track-record">Track Record</a>
       <a class="nav-cta" href="#contact">Speak to Counsel</a>
     </nav>
   </header>
 
   <main>
     <section class="hero">
-      <div class="hero-visual" role="img" aria-label="Dove Chambers legal library"></div>
+      <div class="hero-visual" role="img" aria-label="Dove Chambers legal practitioners team in the boardroom"></div>
       <div class="hero-overlay"></div>
       <div class="hero-copy reveal">
         <p class="eyebrow light">Established 1998 · Lusaka, Zambia</p>
-        <h1>Experience that moves<br><em>matters forward.</em></h1>
+        <h1 class="hero-title" id="heroTitle">
+          <span class="title-line title-line-1">Experience that moves</span><br>
+          <span class="title-line title-line-2"><em>matters forward.</em></span>
+        </h1>
         <p class="hero-lede">Strategic legal counsel for businesses, institutions and individuals navigating complex commercial, regulatory and contentious matters.</p>
         <div class="hero-actions"><a class="btn btn-gold" href="#expertise">Explore our expertise</a><a class="text-link" href="#firm">Discover the firm <span>↘</span></a></div>
       </div>
@@ -43,7 +46,11 @@
         <div class="intro-copy">
           <p class="lead">For more than two decades, Dove Chambers has advised the corporate world on transactions, disputes and legal issues that demand both technical depth and practical judgement.</p>
           <p>The firm is recognised for work in legislative drafting, contract negotiations and project procurement, corporate advisory, mergers and acquisitions, pension funds, conveyancing, capital markets and high-level corporate litigation.</p>
-          <div class="principles"><div><strong>26+</strong><span>years of practice</span></div><div><strong>100+</strong><span>high-end property conveyances*</span></div><div><strong>$24m+</strong><span>notable property value*</span></div></div>
+          <div class="principles">
+            <div><strong class="stat-counter" data-target="26" data-prefix="" data-suffix="+">0+</strong><span>years of practice</span></div>
+            <div><strong class="stat-counter" data-target="100" data-prefix="" data-suffix="+">0+</strong><span>high-end property conveyances*</span></div>
+            <div><strong class="stat-counter" data-target="24" data-prefix="$" data-suffix="m+">$0m+</strong><span>notable property value*</span></div>
+          </div>
           <small class="source-note">*Figures stated in the firm's profile.</small>
         </div>
       </div>
@@ -51,23 +58,217 @@
 
     <section class="expertise section dark" id="expertise">
       <div class="section-label">02 / Expertise</div>
-      <div class="section-head"><p class="eyebrow light">What we do</p><h2>Legal capability across the life of a business.</h2></div>
-      <div class="practice-list">
-        <article><span>01</span><h3>Corporate & Commercial</h3><p>Corporate advisory, governance, joint ventures, mergers and acquisitions, commercial agreements and company secretarial work.</p></article>
-        <article><span>02</span><h3>Litigation & Dispute Resolution</h3><p>Commercial and civil litigation, debt recovery, securities enforcement, insurance claims, employment disputes, arbitration and mediation.</p></article>
-        <article><span>03</span><h3>Banking, Finance & Capital Markets</h3><p>Financial facility arrangements, mortgages, debentures, securitisation and other financial and legal instruments.</p></article>
-        <article><span>04</span><h3>Property & Conveyancing</h3><p>Commercial and domestic conveyancing, property procurement, land documentation, subdivisions and registration of securities.</p></article>
-        <article><span>05</span><h3>Employment & Labour</h3><p>Employment advisory, labour disputes, industrial relations, contracts and representation before courts and tribunals.</p></article>
-        <article><span>06</span><h3>Legislative & Regulatory</h3><p>Legislative analysis and drafting, electoral process work, constitutional matters, compliance and regulatory advisory.</p></article>
-        <article><span>07</span><h3>Construction, Mining & Projects</h3><p>Construction law, project procurement, contract negotiation, mining-related corporate matters and environmental issues.</p></article>
-        <article><span>08</span><h3>Private Client & Estates</h3><p>Administration of estates, matrimonial and family matters, notarial services and commissioners for oaths services.</p></article>
+      <div class="expertise-header">
+        <div class="expertise-heading-group">
+          <p class="eyebrow light">Practice Disciplines</p>
+          <h2>Legal capability across the life of a business.</h2>
+        </div>
+        <div class="slider-controls" aria-label="Practice carousel navigation">
+          <div class="slider-counter" id="sliderCounter" aria-live="polite">
+            <span class="counter-current" id="counterCurrent">01</span>
+            <span class="counter-sep">/</span>
+            <span class="counter-total" id="counterTotal">08</span>
+          </div>
+          <div class="slider-nav-buttons">
+            <button class="slider-arrow prev" id="sliderPrev" aria-label="Previous practice area" title="Previous">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 13L5 8L10 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="slider-arrow next" id="sliderNext" aria-label="Next practice area" title="Next">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="expertise-filter-bar" role="tablist" aria-label="Practice categories">
+        <button class="filter-chip active" data-filter="all" role="tab" aria-selected="true">
+          <span>All Disciplines</span> <small class="chip-count">8</small>
+        </button>
+        <button class="filter-chip" data-filter="corporate" role="tab" aria-selected="false">
+          <span>Corporate & Commercial</span>
+        </button>
+        <button class="filter-chip" data-filter="dispute" role="tab" aria-selected="false">
+          <span>Dispute Resolution</span>
+        </button>
+        <button class="filter-chip" data-filter="finance" role="tab" aria-selected="false">
+          <span>Finance & Property</span>
+        </button>
+        <button class="filter-chip" data-filter="regulatory" role="tab" aria-selected="false">
+          <span>Regulatory & Private</span>
+        </button>
+      </div>
+
+      <!-- Compact Practice Slider Viewport & Track -->
+      <div class="slider-viewport" id="sliderViewport" tabindex="0" aria-label="Disciplines carousel: use left and right arrow keys to slide">
+        <div class="slider-track" id="sliderTrack">
+          <article class="practice-card slide-card" data-category="corporate" data-index="1">
+            <div class="card-glow"></div>
+            <div class="practice-card-top">
+              <span class="practice-num">01</span>
+              <span class="practice-tag">Commercial</span>
+            </div>
+            <h3 class="practice-title">Corporate & Commercial</h3>
+            <p class="practice-desc">Corporate advisory, governance, joint ventures, mergers & acquisitions, commercial agreements and company secretarial practice.</p>
+            <div class="practice-tags">
+              <span>M&A</span>
+              <span>Joint Ventures</span>
+              <span>Governance</span>
+            </div>
+            <a class="practice-action" href="#contact">
+              <span>Consult Counsel</span>
+              <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+
+          <article class="practice-card slide-card" data-category="dispute" data-index="2">
+            <div class="card-glow"></div>
+            <div class="practice-card-top">
+              <span class="practice-num">02</span>
+              <span class="practice-tag">Litigation</span>
+            </div>
+            <h3 class="practice-title">Litigation & Disputes</h3>
+            <p class="practice-desc">Commercial litigation, civil disputes, debt recovery, securities enforcement, arbitration, and appellate tribunal advocacy.</p>
+            <div class="practice-tags">
+              <span>Commercial Court</span>
+              <span>Arbitration</span>
+              <span>Recovery</span>
+            </div>
+            <a class="practice-action" href="#contact">
+              <span>Consult Counsel</span>
+              <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+
+          <article class="practice-card slide-card" data-category="finance" data-index="3">
+            <div class="card-glow"></div>
+            <div class="practice-card-top">
+              <span class="practice-num">03</span>
+              <span class="practice-tag">Finance</span>
+            </div>
+            <h3 class="practice-title">Banking & Capital Markets</h3>
+            <p class="practice-desc">Financial facilities, commercial mortgages, debentures, securitisations, loan syndication, and sovereign debt instruments.</p>
+            <div class="practice-tags">
+              <span>Credit Facilities</span>
+              <span>Securities</span>
+              <span>Debentures</span>
+            </div>
+            <a class="practice-action" href="#contact">
+              <span>Consult Counsel</span>
+              <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+
+          <article class="practice-card slide-card" data-category="finance" data-index="4">
+            <div class="card-glow"></div>
+            <div class="practice-card-top">
+              <span class="practice-num">04</span>
+              <span class="practice-tag">Real Estate</span>
+            </div>
+            <h3 class="practice-title">Property & Conveyancing</h3>
+            <p class="practice-desc">High-value commercial & residential conveyancing, commercial leasing, subdivisions, land documentation, and title registrations.</p>
+            <div class="practice-tags">
+              <span>Conveyancing</span>
+              <span>Title Diligence</span>
+              <span>Leasing</span>
+            </div>
+            <a class="practice-action" href="#contact">
+              <span>Consult Counsel</span>
+              <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+
+          <article class="practice-card slide-card" data-category="dispute" data-index="5">
+            <div class="card-glow"></div>
+            <div class="practice-card-top">
+              <span class="practice-num">05</span>
+              <span class="practice-tag">Labour</span>
+            </div>
+            <h3 class="practice-title">Employment & Labour</h3>
+            <p class="practice-desc">Executive contracts, union negotiations, redundancy frameworks, industrial actions, and dispute defence before labour tribunals.</p>
+            <div class="practice-tags">
+              <span>Industrial Relations</span>
+              <span>Contracts</span>
+              <span>Tribunals</span>
+            </div>
+            <a class="practice-action" href="#contact">
+              <span>Consult Counsel</span>
+              <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+
+          <article class="practice-card slide-card" data-category="regulatory" data-index="6">
+            <div class="card-glow"></div>
+            <div class="practice-card-top">
+              <span class="practice-num">06</span>
+              <span class="practice-tag">Public Law</span>
+            </div>
+            <h3 class="practice-title">Legislative & Regulatory</h3>
+            <p class="practice-desc">Statutory analysis, legislative drafting, constitutional review processes, electoral disputes, and regulatory compliance advisory.</p>
+            <div class="practice-tags">
+              <span>Statutory Drafting</span>
+              <span>Constitutional</span>
+              <span>Compliance</span>
+            </div>
+            <a class="practice-action" href="#contact">
+              <span>Consult Counsel</span>
+              <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+
+          <article class="practice-card slide-card" data-category="corporate" data-index="7">
+            <div class="card-glow"></div>
+            <div class="practice-card-top">
+              <span class="practice-num">07</span>
+              <span class="practice-tag">Projects</span>
+            </div>
+            <h3 class="practice-title">Construction & Mining</h3>
+            <p class="practice-desc">FIDIC infrastructure procurement, mining licensing, development agreements, joint venture structuring, and environmental compliance.</p>
+            <div class="practice-tags">
+              <span>FIDIC Contracts</span>
+              <span>Mining Rights</span>
+              <span>Procurement</span>
+            </div>
+            <a class="practice-action" href="#contact">
+              <span>Consult Counsel</span>
+              <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+
+          <article class="practice-card slide-card" data-category="regulatory" data-index="8">
+            <div class="card-glow"></div>
+            <div class="practice-card-top">
+              <span class="practice-num">08</span>
+              <span class="practice-tag">Private Client</span>
+            </div>
+            <h3 class="practice-title">Private Client & Estates</h3>
+            <p class="practice-desc">Wealth preservation, estate administration, succession planning, trusts, notarial attestations, and commissioner for oaths.</p>
+            <div class="practice-tags">
+              <span>Estate Planning</span>
+              <span>Probate</span>
+              <span>Notary Public</span>
+            </div>
+            <a class="practice-action" href="#contact">
+              <span>Consult Counsel</span>
+              <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </article>
+        </div>
+      </div>
+
+      <!-- Slide Pagination Bar & Progress Indicators -->
+      <div class="slider-footer">
+        <div class="slider-progress-track">
+          <div class="slider-progress-bar" id="sliderProgressBar"></div>
+        </div>
+        <div class="slider-dots" id="sliderDots" role="tablist" aria-label="Practice slide pagination"></div>
       </div>
     </section>
 
     <section class="track section" id="track-record">
       <div class="section-label">03 / Track Record</div>
       <div class="track-grid">
-        <div class="track-image"><img src="assets/Group photo boardroom.jpg" alt="Dove Chambers legal team in the boardroom" loading="lazy"></div>
+        <div class="track-image"><img src="assets/group-photo-boardroom.jpg?v=20260903c" alt="Dove Chambers legal team in the boardroom" loading="lazy"></div>
         <div class="track-copy">
           <p class="eyebrow">Built on significant work</p><h2>Trusted on matters of consequence.</h2>
           <p>The firm's profile records experience in corporate representation, liquidations and receiverships, major property conveyancing, electoral and constitutional work, development agreements, labour law, insolvency, capital markets, mining, tax and general litigation.</p>
@@ -80,22 +281,14 @@
       </div>
     </section>
 
-    <section class="service-standard section">
-      <div class="service-copy"><p class="eyebrow light">Client service</p><h2>Responsive by design.</h2><p>Dove Chambers' profile emphasises timely delivery, active matter reporting and ready access to legal practitioners for urgent queries.</p></div>
-      <div class="service-metrics">
-        <div><strong>24 hrs</strong><p>Target for security documentation after clear instructions or clarifications.</p></div>
-        <div><strong>48 hrs</strong><p>Target for lodgement schedules after receipt of executed documents and fees.</p></div>
-        <div><strong>Monthly</strong><p>Status reports on the progression of matters, with significant developments communicated sooner.</p></div>
-      </div>
-    </section>
-
     <section class="people section" id="people">
-      <div class="section-label">04 / People</div>
+      <div class="section-label">04 / Our Team</div>
       <div class="section-head light-bg"><p class="eyebrow">Our lawyers</p><h2>Experience, judgement and range.</h2></div>
       <div class="people-grid">
-        <article class="person-card" data-person="mayamba"><div class="portrait"><img src="assets/Mayamba Mwanawasa 1.jpg" alt="Mayamba Mwanawasa" loading="lazy"></div><div class="person-meta"><h3>Mayamba Mwanawasa</h3><p>Managing Partner</p><span>View profile ↗</span></div></article>
-        <article class="person-card" data-person="jacob"><div class="portrait"><img src="assets/Jacob Milambo 3.jpg" alt="Jacob Milambo" loading="lazy"></div><div class="person-meta"><h3>Jacob Milambo</h3><p>Senior Partner</p><span>View profile ↗</span></div></article>
-        <article class="person-card" data-person="inutu"><div class="portrait"><img src="assets/Inutu.jpg" alt="Inutu Ngobola" loading="lazy"></div><div class="person-meta"><h3>Inutu Ngobola</h3><p>Partner</p><span>View profile ↗</span></div></article>
+        <article class="person-card" data-person="mayamba"><div class="portrait"><img src="assets/mayamba-mwanawasa-1.jpg?v=20260903c" alt="Mayamba Mwanawasa" loading="lazy"></div><div class="person-meta"><h3>Mayamba Mwanawasa</h3><p>Managing Partner</p><span>View profile ↗</span></div></article>
+        <article class="person-card" data-person="jacob"><div class="portrait"><img src="assets/jacob-milambo-1.jpg?v=20260903c" alt="Jacob Milambo" loading="lazy"></div><div class="person-meta"><h3>Jacob Milambo</h3><p>Senior Partner</p><span>View profile ↗</span></div></article>
+        <article class="person-card" data-person="inutu"><div class="portrait"><img src="assets/inutu.jpg?v=20260903c" alt="Inutu Ngobola" loading="lazy"></div><div class="person-meta"><h3>Inutu Ngobola</h3><p>Partner</p><span>View profile ↗</span></div></article>
+        <article class="person-card" data-person="nyambe"><div class="portrait"><img src="assets/nyambe-makunku-3.jpg?v=20260903c" alt="Nyambe Makunku" loading="lazy"></div><div class="person-meta"><h3>Nyambe Makunku</h3><p>Associate</p><span>View profile ↗</span></div></article>
       </div>
     </section>
 
@@ -119,12 +312,12 @@
 
   <footer>
     <div class="footer-brand"><span class="brand-mark">D</span><div><strong>Dove Chambers</strong><small>Advocates</small></div></div>
-    <div><strong>Practice</strong><a href="#expertise">Expertise</a><a href="#track-record">Track record</a><a href="#people">People</a></div>
+    <div><strong>Practice</strong><a href="#expertise">Expertise</a><a href="#track-record">Track record</a><a href="#people">Our Team</a></div>
     <div><strong>Contact</strong><a href="mailto:info@dovechambers.co.zm">info@dovechambers.co.zm</a><a href="tel:+260211294341">+260 211 294341</a><span>Lusaka, Zambia</span></div>
     <div class="footer-bottom"><span>© <span id="year"></span> Dove Chambers Advocates.</span><span>Demo website concept.</span></div>
   </footer>
 
   <dialog class="profile-modal" id="profileModal"><button class="modal-close" aria-label="Close">×</button><div id="modalContent"></div></dialog>
-  <script src="script.js?v=20260831"></script>
+  <script src="script.js?v=20260903g"></script>
 </body>
 </html>
