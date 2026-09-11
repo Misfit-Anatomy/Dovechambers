@@ -4,6 +4,7 @@
   --navy: #071013;
   --navy2: #0e1b20;
   --gold: #C9A75A;
+  --golden-bronze: #CDA45E;
   --gold-hover: #b89547;
   --gold-muted: rgba(201, 167, 90, 0.15);
   --paper: #ffffff;
@@ -175,9 +176,9 @@ img {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  /* Reduced opacity so the Team photograph in the boardroom is clearly visible */
-  background: linear-gradient(90deg, rgba(7, 16, 19, 0.58) 0%, rgba(7, 16, 19, 0.28) 48%, rgba(7, 16, 19, 0.06) 100%),
-              linear-gradient(0deg, rgba(7, 16, 19, 0.45) 0%, transparent 36%);
+  /* Balanced opacity: rich contrast and depth while the boardroom setting remains visible */
+  background: linear-gradient(90deg, rgba(7, 16, 19, 0.78) 0%, rgba(7, 16, 19, 0.52) 48%, rgba(7, 16, 19, 0.22) 100%),
+              linear-gradient(0deg, rgba(7, 16, 19, 0.58) 0%, transparent 42%);
   pointer-events: none;
 }
 
@@ -218,8 +219,6 @@ img {
   line-height: 0.96;
   margin: 0 0 32px;
   max-width: 960px;
-  will-change: transform;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .title-line {
@@ -228,24 +227,21 @@ img {
 }
 
 .title-line-1 {
-  animation: glideForward1 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards, subtleDrift1 7s ease-in-out infinite 1.2s;
+  animation: glideForward1 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .title-line-2 {
-  animation: glideForward2 1.4s 0.18s cubic-bezier(0.16, 1, 0.3, 1) both, subtleDrift2 6.5s ease-in-out infinite 1.58s;
+  animation: glideForward2 1.4s 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .hero h1 em,
 .hero-title em {
   font-style: italic;
   font-weight: 500;
-  color: var(--gold);
+  color: var(--golden-bronze);
   display: inline-block;
-  background: linear-gradient(115deg, #C9A75A 0%, #faeec7 32%, #C9A75A 60%, #faeec7 85%, #C9A75A 100%);
-  background-size: 240% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: goldShimmer 5s linear infinite;
+  padding-right: 0.08em;
+  text-shadow: 0 2px 26px rgba(205, 164, 94, 0.45), 0 1px 3px rgba(4, 9, 11, 0.85);
 }
 
 .hero-lede {
@@ -452,7 +448,7 @@ img {
   align-items: flex-end;
   justify-content: space-between;
   gap: 28px;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .expertise-heading-group h2 {
@@ -541,64 +537,6 @@ img {
   cursor: not-allowed;
   pointer-events: none;
   transform: none;
-}
-
-/* Category Filter Bar */
-.expertise-filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 18px;
-}
-
-.filter-chip {
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--muted-dark);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  padding: 8px 18px;
-  border-radius: 999px;
-  font-family: inherit;
-  font-size: 12.5px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  outline: none;
-}
-
-.filter-chip:hover {
-  color: var(--white);
-  border-color: rgba(201, 167, 90, 0.4);
-  background: rgba(201, 167, 90, 0.08);
-  transform: translateY(-2px);
-}
-
-.filter-chip.active {
-  background: var(--gold);
-  color: #04090b;
-  border-color: var(--gold);
-  font-weight: 600;
-  box-shadow: 0 4px 18px rgba(201, 167, 90, 0.28);
-}
-
-.filter-chip .chip-count {
-  font-size: 10px;
-  padding: 1px 6px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.16);
-  font-weight: 600;
-}
-
-.filter-chip.active .chip-count {
-  background: rgba(0, 0, 0, 0.22);
-  color: #04090b;
 }
 
 /* Horizontal Slide Viewport & Track */
@@ -890,7 +828,7 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 52% center;
+  object-position: center 35%;
 }
 
 .track-copy h2 {
@@ -1304,24 +1242,6 @@ footer a:hover {
   100% {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes subtleDrift1 {
-  0%, 100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(8px, -2px, 0);
-  }
-}
-
-@keyframes subtleDrift2 {
-  0%, 100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(14px, -3px, 0);
   }
 }
 

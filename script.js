@@ -133,53 +133,7 @@ if (principlesSection && 'IntersectionObserver' in window) {
   animateCounters();
 }
 
-// Kinetic Interactive Movement for "Experience that moves matters forward."
-const heroSection = document.querySelector('.hero');
-const heroTitle = document.getElementById('heroTitle');
-if (heroSection && heroTitle && window.matchMedia('(pointer: fine)').matches) {
-  let targetX = 0;
-  let targetY = 0;
-  let currentX = 0;
-  let currentY = 0;
-  let isMoving = false;
-
-  function updateHeadlineMotion() {
-    currentX += (targetX - currentX) * 0.08;
-    currentY += (targetY - currentY) * 0.08;
-    heroTitle.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0)`;
-
-    if (Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05) {
-      requestAnimationFrame(updateHeadlineMotion);
-    } else {
-      isMoving = false;
-    }
-  }
-
-  heroSection.addEventListener('mousemove', (e) => {
-    const rect = heroSection.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    // Elegant, smooth range of motion
-    targetX = x * 26;
-    targetY = y * 14;
-
-    if (!isMoving) {
-      isMoving = true;
-      requestAnimationFrame(updateHeadlineMotion);
-    }
-  });
-
-  heroSection.addEventListener('mouseleave', () => {
-    targetX = 0;
-    targetY = 0;
-    if (!isMoving) {
-      isMoving = true;
-      requestAnimationFrame(updateHeadlineMotion);
-    }
-  });
-}
-
-// 02 / Expertise Section Compact Slide Carousel
+// 02 / Expertise Section Compact Slide Carousel (Automatic Slideshow)
 const sliderViewport = document.getElementById('sliderViewport');
 const sliderTrack = document.getElementById('sliderTrack');
 const sliderPrev = document.getElementById('sliderPrev');
@@ -188,41 +142,35 @@ const counterCurrent = document.getElementById('counterCurrent');
 const counterTotal = document.getElementById('counterTotal');
 const sliderProgressBar = document.getElementById('sliderProgressBar');
 const sliderDots = document.getElementById('sliderDots');
-const filterChips = document.querySelectorAll('.filter-chip');
 const allPracticeCards = Array.from(document.querySelectorAll('.practice-card'));
 
 if (sliderViewport && sliderTrack) {
   let currentIndex = 0;
-  let activeFilter = 'all';
   let isDragging = false;
+  let isHovered = false;
   let startX = 0;
   let currentTranslate = 0;
   let prevTranslate = 0;
   let animationId = null;
-
-  function getVisibleCards() {
-    return allPracticeCards.filter(card => !card.classList.contains('is-hidden'));
-  }
+  let autoSlideTimer = null;
+  const AUTO_SLIDE_INTERVAL = 3500; // 3.5 seconds between slides
 
   function getCardStep() {
-    const visible = getVisibleCards();
-    if (visible.length === 0) return 360;
-    const cardRect = visible[0].getBoundingClientRect();
+    if (allPracticeCards.length === 0) return 360;
+    const cardRect = allPracticeCards[0].getBoundingClientRect();
     const gap = 20;
     return cardRect.width + gap;
   }
 
   function getMaxIndex() {
-    const visible = getVisibleCards();
-    if (visible.length <= 1) return 0;
+    if (allPracticeCards.length <= 1) return 0;
     const step = getCardStep();
     const viewportWidth = sliderViewport.clientWidth;
     const fullyVisibleInViewport = Math.max(1, Math.floor(viewportWidth / step));
-    return Math.max(0, visible.length - fullyVisibleInViewport);
+    return Math.max(0, allPracticeCards.length - fullyVisibleInViewport);
   }
 
   function updateSlideUI() {
-    const visible = getVisibleCards();
     const maxIdx = getMaxIndex();
 
     // Ensure currentIndex is clamped
@@ -241,24 +189,24 @@ if (sliderViewport && sliderTrack) {
 
     // Update Counter (pad to 2 digits)
     if (counterCurrent) {
-      counterCurrent.textContent = String(Math.min(currentIndex + 1, visible.length)).padStart(2, '0');
+      counterCurrent.textContent = String(Math.min(currentIndex + 1, allPracticeCards.length)).padStart(2, '0');
     }
     if (counterTotal) {
-      counterTotal.textContent = String(visible.length).padStart(2, '0');
+      counterTotal.textContent = String(allPracticeCards.length).padStart(2, '0');
     }
 
-    // Update Buttons
+    // Nav arrow buttons remain clickable to wrap around continuously
     if (sliderPrev) {
-      sliderPrev.disabled = currentIndex <= 0;
+      sliderPrev.disabled = maxIdx <= 0;
     }
     if (sliderNext) {
-      sliderNext.disabled = currentIndex >= maxIdx;
+      sliderNext.disabled = maxIdx <= 0;
     }
 
     // Update Progress Bar
     if (sliderProgressBar) {
-      const progressPercent = visible.length > 0 
-        ? Math.min(100, Math.max(12, ((currentIndex + 1) / visible.length) * 100))
+      const progressPercent = allPracticeCards.length > 0 
+        ? Math.min(100, Math.max(12, ((currentIndex + 1) / allPracticeCards.length) * 100))
         : 100;
       sliderProgressBar.style.width = `${progressPercent}%`;
     }
@@ -274,46 +222,115 @@ if (sliderViewport && sliderTrack) {
         dot.setAttribute('role', 'tab');
         dot.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false');
         dot.addEventListener('click', () => {
-          goToSlide(i);
+          goToSlide(i, true);
         });
         sliderDots.appendChild(dot);
       }
     }
   }
 
-  function goToSlide(index) {
+  function goToSlide(index, manual = false) {
     const maxIdx = getMaxIndex();
-    currentIndex = Math.max(0, Math.min(index, maxIdx));
+    if (maxIdx <= 0) {
+      currentIndex = 0;
+    } else if (index > maxIdx) {
+      currentIndex = 0; // Seamless loop to beginning
+    } else if (index < 0) {
+      currentIndex = maxIdx; // Wrap to end
+    } else {
+      currentIndex = index;
+    }
     updateSlideUI();
+
+    if (manual) {
+      resetAutoSlide();
+    }
   }
 
-  // Prev / Next button click handlers
+  // Automatic Slide Engine
+  function startAutoSlide() {
+    stopAutoSlide();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    autoSlideTimer = setInterval(() => {
+      if (!isDragging && !isHovered && document.visibilityState === 'visible') {
+        const maxIdx = getMaxIndex();
+        if (maxIdx > 0) {
+          const nextIdx = (currentIndex >= maxIdx) ? 0 : currentIndex + 1;
+          goToSlide(nextIdx, false);
+        }
+      }
+    }, AUTO_SLIDE_INTERVAL);
+  }
+
+  function stopAutoSlide() {
+    if (autoSlideTimer) {
+      clearInterval(autoSlideTimer);
+      autoSlideTimer = null;
+    }
+  }
+
+  function resetAutoSlide() {
+    stopAutoSlide();
+    startAutoSlide();
+  }
+
+  // Prev / Next button click handlers with wrap-around
   if (sliderPrev) {
     sliderPrev.addEventListener('click', () => {
-      goToSlide(currentIndex - 1);
+      goToSlide(currentIndex - 1, true);
     });
   }
 
   if (sliderNext) {
     sliderNext.addEventListener('click', () => {
-      goToSlide(currentIndex + 1);
+      goToSlide(currentIndex + 1, true);
     });
   }
+
+  // Pause on hover over slider viewport or header navigation controls
+  sliderViewport.addEventListener('mouseenter', () => {
+    isHovered = true;
+  });
+  sliderViewport.addEventListener('mouseleave', () => {
+    isHovered = false;
+    resetAutoSlide();
+  });
+
+  const sliderControls = document.querySelector('.slider-controls');
+  if (sliderControls) {
+    sliderControls.addEventListener('mouseenter', () => {
+      isHovered = true;
+    });
+    sliderControls.addEventListener('mouseleave', () => {
+      isHovered = false;
+      resetAutoSlide();
+    });
+  }
+
+  // Pause on background tab to conserve CPU
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      startAutoSlide();
+    } else {
+      stopAutoSlide();
+    }
+  });
 
   // Keyboard navigation when slider viewport has focus
   sliderViewport.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') {
       e.preventDefault();
-      goToSlide(currentIndex + 1);
+      goToSlide(currentIndex + 1, true);
     } else if (e.key === 'ArrowLeft') {
       e.preventDefault();
-      goToSlide(currentIndex - 1);
+      goToSlide(currentIndex - 1, true);
     }
   });
 
   // Touch and Mouse Drag-to-Slide Functionality
   function pointerStart(e) {
     isDragging = true;
+    stopAutoSlide();
     sliderViewport.classList.add('is-dragging');
     sliderTrack.classList.add('is-dragging');
     startX = getPositionX(e);
@@ -352,12 +369,13 @@ if (sliderViewport && sliderTrack) {
     const threshold = Math.min(60, step * 0.2);
 
     if (movedBy < -threshold) {
-      goToSlide(currentIndex + 1);
+      goToSlide(currentIndex + 1, true);
     } else if (movedBy > threshold) {
-      goToSlide(currentIndex - 1);
+      goToSlide(currentIndex - 1, true);
     } else {
-      goToSlide(currentIndex);
+      goToSlide(currentIndex, true);
     }
+    resetAutoSlide();
   }
 
   function getPositionX(e) {
@@ -373,37 +391,6 @@ if (sliderViewport && sliderTrack) {
   sliderViewport.addEventListener('touchstart', pointerStart, { passive: true });
   window.addEventListener('touchmove', pointerMove, { passive: true });
   window.addEventListener('touchend', pointerEnd);
-
-  // Category Filtering with Smooth Transition to Slide 0
-  filterChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      const filter = chip.dataset.filter;
-      if (filter === activeFilter) return;
-      activeFilter = filter;
-
-      filterChips.forEach(c => {
-        c.classList.remove('active');
-        c.setAttribute('aria-selected', 'false');
-      });
-      chip.classList.add('active');
-      chip.setAttribute('aria-selected', 'true');
-
-      // Filter visible cards
-      allPracticeCards.forEach(card => {
-        const category = card.dataset.category;
-        const isMatch = filter === 'all' || category === filter;
-        if (isMatch) {
-          card.classList.remove('is-hidden');
-        } else {
-          card.classList.add('is-hidden');
-        }
-      });
-
-      // Reset to first slide in category
-      currentIndex = 0;
-      updateSlideUI();
-    });
-  });
 
   // Recalculate slider positioning on window resize
   let resizeTimer = null;
@@ -427,7 +414,8 @@ if (sliderViewport && sliderTrack) {
     });
   }
 
-  // Initial slider state setup
+  // Initial slider state setup and start automatic slideshow
   updateSlideUI();
+  startAutoSlide();
 }
 
