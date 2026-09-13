@@ -10,7 +10,10 @@ const people = {
   mayamba: {
     name: 'Mayamba Mwanawasa',
     role: 'Managing Partner (2021 – Present)',
-    image: 'assets/mayamba-mwanawasa-1.jpg?v=20260903c',
+    images: [
+      'assets/mayamba-mwanawasa-1.jpg?v=20260903c',
+      'assets/mayamba-slide.jpg?v=20260911'
+    ],
     email: 'info@dovechambers.co.zm',
     paragraphs: [
       'Ms. Mayamba Mwanawasa is the Managing Partner of Dove Chambers and an accomplished legal practitioner with over 19 years of distinguished experience in private practice. Admitted to the Zambian Bar in 2007, she successfully passed the Bar examinations on her first attempt — a remarkable achievement that reflects her discipline, determination, and unwavering commitment to excellence.',
@@ -25,7 +28,10 @@ const people = {
   jacob: {
     name: 'Jacob Milambo',
     role: 'Senior Partner',
-    image: 'assets/jacob-milambo-1.jpg?v=20260903c',
+    images: [
+      'assets/jacob-milambo-1.jpg?v=20260903c',
+      'assets/jacob-slide.jpg?v=20260911'
+    ],
     email: 'info@dovechambers.co.zm',
     paragraphs: [
       'A distinguished advocate with nearly a decade of experience at the Zambian Bar, Jacob Milambo is a Senior Partner at Dove Chambers Legal Practitioners, renowned for his strategic thinking, composure, and dedication to achieving effective legal solutions for his clients.',
@@ -39,7 +45,10 @@ const people = {
   inutu: {
     name: 'Inutu Ngobola',
     role: 'Partner',
-    image: 'assets/inutu.jpg?v=20260903c',
+    images: [
+      'assets/inutu.jpg?v=20260903c',
+      'assets/inutu-slide.jpg?v=20260911'
+    ],
     email: 'info@dovechambers.co.zm',
     paragraphs: [
       'Inutu Ngobola is an Advocate of the Superior Courts of Zambia, admitted to the Bar in June 2017. She holds an LLB (Honours) law degree from London South Bank University, in the United Kingdom, and has extensive experience in civil litigation and commercial law.',
@@ -51,7 +60,10 @@ const people = {
   nyambe: {
     name: 'Nyambe Makunku',
     role: 'Associate',
-    image: 'assets/nyambe-makunku-3.jpg?v=20260903c',
+    images: [
+      'assets/nyambe-makunku-3.jpg?v=20260903c',
+      'assets/nyambe-slide.jpg?v=20260911'
+    ],
     email: 'info@dovechambers.co.zm',
     paragraphs: [
       'Nyambe is a dynamic legal practitioner with over four years of experience advising clients across complex legal matters. His practice spans dispute resolution, appellate and commercial litigation, employment and labor law, family law, and probate and succession.'
@@ -59,15 +71,41 @@ const people = {
     funFact: 'He is an avid sports enthusiast who passionately supports Arsenal, PSG, and Nkana FC, and regularly follows Formula 1 and tennis.'
   }
 };
-const modal = document.getElementById('profileModal'); const content = document.getElementById('modalContent');
-document.querySelectorAll('.person-card').forEach(card => card.addEventListener('click', () => {
-  const p = people[card.dataset.person];
+
+const modal = document.getElementById('profileModal');
+const content = document.getElementById('modalContent');
+
+// Profile modal click handling with nested slider support
+document.querySelectorAll('.person-card').forEach(card => card.addEventListener('click', (e) => {
+  // Prevent opening modal when clicking slider controls
+  if (e.target.closest('.portrait-slider-controls')) {
+    return;
+  }
+  const personKey = card.dataset.person;
+  const p = people[personKey];
   if (!p) return;
+
+  const currentCardSlide = parseInt(card.querySelector('.portrait-slider')?.dataset.slide || '0', 10);
+  const images = p.images || [p.image];
   const paragraphsHtml = p.paragraphs.map(text => `<p>${text}</p>`).join('');
   const funFactHtml = p.funFact ? `<div class="modal-fun-fact"><strong>Fun Fact</strong><p>${p.funFact}</p></div>` : '';
+
   content.innerHTML = `
     <div class="modal-body">
-      <div class="modal-portrait"><img src="${p.image}" alt="${p.name}"></div>
+      <div class="modal-portrait" id="modalPortraitSlider" data-slide="${currentCardSlide}">
+        <div class="modal-portrait-slides" style="transform: translateX(-${currentCardSlide * 100}%);">
+          ${images.map(img => `<div class="modal-portrait-slide"><img src="${img}" alt="${p.name}"></div>`).join('')}
+        </div>
+        ${images.length > 1 ? `
+          <div class="portrait-slider-controls" aria-label="${p.name} photos">
+            <button class="portrait-slider-btn modal-prev" type="button" aria-label="Previous photo">‹</button>
+            <div class="portrait-slider-dots">
+              ${images.map((_, i) => `<button class="p-dot ${i === currentCardSlide ? 'active' : ''}" type="button" data-index="${i}" aria-label="Photo ${i + 1}"></button>`).join('')}
+            </div>
+            <button class="portrait-slider-btn modal-next" type="button" aria-label="Next photo">›</button>
+          </div>
+        ` : ''}
+      </div>
       <div class="modal-text">
         <div class="role">${p.role}</div>
         <h3>${p.name}</h3>
@@ -76,9 +114,153 @@ document.querySelectorAll('.person-card').forEach(card => card.addEventListener(
       </div>
     </div>
   `;
+
+  // Wire up slider inside the modal
+  const modalSlider = document.getElementById('modalPortraitSlider');
+  if (modalSlider && images.length > 1) {
+    const modalTrack = modalSlider.querySelector('.modal-portrait-slides');
+    const modalDots = modalSlider.querySelectorAll('.p-dot');
+    const modalPrev = modalSlider.querySelector('.modal-prev');
+    const modalNext = modalSlider.querySelector('.modal-next');
+    let modalSlideIndex = currentCardSlide;
+
+    function setModalSlide(idx) {
+      if (idx < 0) idx = images.length - 1;
+      if (idx >= images.length) idx = 0;
+      modalSlideIndex = idx;
+      modalSlider.dataset.slide = String(modalSlideIndex);
+      modalTrack.style.transform = `translateX(-${modalSlideIndex * 100}%)`;
+      modalDots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === modalSlideIndex);
+      });
+    }
+
+    if (modalPrev) {
+      modalPrev.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        setModalSlide(modalSlideIndex - 1);
+      });
+    }
+    if (modalNext) {
+      modalNext.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        setModalSlide(modalSlideIndex + 1);
+      });
+    }
+    modalDots.forEach(dot => {
+      dot.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        setModalSlide(parseInt(dot.dataset.index, 10));
+      });
+    });
+  }
+
   modal.showModal();
 }));
 document.querySelector('.modal-close').addEventListener('click',()=>modal.close()); modal.addEventListener('click',e=>{if(e.target===modal)modal.close()});
+
+// 04 / Our Team - Lawyer Portrait Photo Sliders
+function initLawyerSliders() {
+  const cards = document.querySelectorAll('.person-card');
+  cards.forEach((card, cardIndex) => {
+    const slider = card.querySelector('.portrait-slider');
+    if (!slider) return;
+    const slidesTrack = slider.querySelector('.portrait-slides');
+    const slides = slider.querySelectorAll('.portrait-slide');
+    const dots = slider.querySelectorAll('.p-dot');
+    const prevBtn = slider.querySelector('.portrait-prev');
+    const nextBtn = slider.querySelector('.portrait-next');
+    let currentIndex = 0;
+    let autoSlideInterval = null;
+    let isHovered = false;
+
+    function setSlide(index) {
+      if (slides.length <= 1) return;
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
+      currentIndex = index;
+      slider.dataset.slide = String(currentIndex);
+      slidesTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setSlide(currentIndex - 1);
+        resetTimer();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setSlide(currentIndex + 1);
+        resetTimer();
+      });
+    }
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = parseInt(dot.dataset.index, 10);
+        setSlide(idx);
+        resetTimer();
+      });
+    });
+
+    // Touch swipe support on card portrait
+    let touchStartX = 0;
+    slider.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    slider.addEventListener('touchend', (e) => {
+      const diffX = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(diffX) > 40) {
+        if (diffX > 0) {
+          setSlide(currentIndex - 1);
+        } else {
+          setSlide(currentIndex + 1);
+        }
+        resetTimer();
+      }
+    });
+
+    // Auto-slide every 4.5s, paused when card is hovered or document hidden
+    function startTimer() {
+      if (autoSlideInterval) clearInterval(autoSlideInterval);
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      autoSlideInterval = setInterval(() => {
+        if (!isHovered && document.visibilityState === 'visible') {
+          setSlide(currentIndex + 1);
+        }
+      }, 4500);
+    }
+
+    function resetTimer() {
+      if (autoSlideInterval) clearInterval(autoSlideInterval);
+      startTimer();
+    }
+
+    card.addEventListener('mouseenter', () => {
+      isHovered = true;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      isHovered = false;
+      resetTimer();
+    });
+
+    // Stagger start delay so all cards don't rotate on the same second
+    setTimeout(() => {
+      startTimer();
+    }, 1500 + cardIndex * 1200);
+  });
+}
+initLawyerSliders();
 
 // Fast Count-Up Animation for "26+", "100+", and "24m+"
 const statCounters = document.querySelectorAll('.stat-counter');
@@ -133,7 +315,7 @@ if (principlesSection && 'IntersectionObserver' in window) {
   animateCounters();
 }
 
-// 02 / Expertise Section Compact Slide Carousel (Automatic Slideshow)
+// Practice Area Section Compact Slide Carousel (Automatic Slideshow)
 const sliderViewport = document.getElementById('sliderViewport');
 const sliderTrack = document.getElementById('sliderTrack');
 const sliderPrev = document.getElementById('sliderPrev');
