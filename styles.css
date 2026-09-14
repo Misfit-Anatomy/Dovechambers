@@ -83,6 +83,12 @@ img {
   font-family: var(--font-serif);
   font-size: 26px;
   color: var(--gold);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.brand:hover .brand-mark {
+  border-color: var(--golden-bronze);
+  transform: scale(1.04);
 }
 
 .brand-text {
@@ -93,9 +99,15 @@ img {
 
 .brand-text strong {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.4px;
+  color: var(--white);
+  transition: color 0.25s ease;
+}
+
+.brand:hover .brand-text strong {
+  color: var(--gold);
 }
 
 .brand-text small {
@@ -109,19 +121,56 @@ img {
 .nav {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 28px;
   font-size: 13.5px;
   letter-spacing: 0.2px;
 }
 
-.nav a:not(.nav-cta) {
+.nav a:not(.nav-cta):not(.nav-linkedin-btn) {
   opacity: 0.82;
   transition: opacity 0.2s ease, color 0.2s ease;
 }
 
-.nav a:not(.nav-cta):hover {
+.nav a:not(.nav-cta):not(.nav-linkedin-btn):hover {
   opacity: 1;
   color: var(--gold);
+}
+
+.nav-linkedin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(205, 164, 94, 0.45);
+  color: #f1ebd8;
+  padding: 10px 18px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  background: rgba(205, 164, 94, 0.08);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.nav-linkedin-btn:hover {
+  background: #0077B5;
+  border-color: #0077B5;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 119, 181, 0.35);
+  transform: translateY(-1px);
+}
+
+.nav-linkedin-btn .linkedin-svg {
+  color: #00a0dc;
+  transition: transform 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.nav-linkedin-btn:hover .linkedin-svg {
+  color: #ffffff;
+  transform: scale(1.08);
 }
 
 .nav-cta {
@@ -1108,7 +1157,50 @@ img {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 28px;
+  gap: 24px;
+}
+
+.btn-linkedin {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 119, 181, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(0, 119, 181, 0.4);
+  padding: 13px 26px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 2px;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.btn-linkedin:hover {
+  background: #0077B5;
+  border-color: #0077B5;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 119, 181, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-linkedin .linkedin-svg {
+  color: #00a0dc;
+  transition: transform 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-linkedin:hover .linkedin-svg {
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.footer-linkedin {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .phone {
@@ -1385,6 +1477,14 @@ footer a:hover {
     font-size: 32px;
     transform: translateX(100%);
     transition: transform 0.35s ease;
+    gap: 24px;
+  }
+
+  .nav-linkedin-btn {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    padding: 12px 28px;
+    margin-top: 8px;
   }
 
   .nav.open {
@@ -1494,6 +1594,10 @@ footer a:hover {
   .brand-mark {
     width: 38px;
     height: 38px;
+  }
+
+  .brand-text strong {
+    font-size: 20px;
   }
 
   .hero {
